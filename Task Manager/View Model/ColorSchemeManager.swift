@@ -1,0 +1,34 @@
+//
+//  ColorSchemeManager.swift
+//  Task Manager
+//
+//  Created by Egor Bubiryov on 20.03.2023.
+//
+
+import SwiftUI
+
+enum ColorScheme: Int {
+    case system, light, dark
+}
+
+class ColorSchemeManager: ObservableObject {
+    
+    @AppStorage("colorScheme") var colorScheme: ColorScheme = .system {
+        didSet {
+            applyColorScheme()
+        }
+    }
+    
+    func applyColorScheme() {
+        keywindow?.overrideUserInterfaceStyle = UIUserInterfaceStyle(rawValue: colorScheme.rawValue)!
+    }
+
+    var keywindow: UIWindow? {
+        guard let scene = UIApplication.shared.connectedScenes.first,
+              let windowSceneDelegate = scene.delegate as? UIWindowSceneDelegate,
+              let window = windowSceneDelegate.window else {
+            return nil
+        }
+        return window
+    }
+}

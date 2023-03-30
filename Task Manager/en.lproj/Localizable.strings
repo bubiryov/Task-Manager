@@ -1,0 +1,59 @@
+/* 
+  Localizable.strings
+  Task Manager
+
+  Created by Egor Bubiryov on 11.03.2023.
+  
+*/
+
+"HomeViewTitle-string" = "Tasks";
+"HomeSearchTextField-string" = "Search";
+"AddTitleTextField-string" = "New task";
+"AddNotesTextEditor-string" = "Notes:";
+"EditViewNotification-string" = "Notification";
+"EditViewTitleTextField-string" = "Write your task";
+"EditViewNotificationDate-string" = "Date";
+"EditViewNotificationButton-string" = "To remind";
+"EditViewDoneButton-string" = "Done";
+"EmptyTaskTitle-string" = "Empty";
+
+"RecentTitle-string" = "Recent";
+"RecentAlertTitle-string" = "Are you sure you want to clear the list?";
+"RecentAlertMessage-string" = "This actions will not be undone";
+"RecentAlertPrimaryButton-string" = "Clear";
+
+"SettingsTitle-string" = "Settings";
+"SchemePickerSystem-string" = "System";
+"SchemePickerLight-string" = "Light";
+"SchemePickerDark-string" = "Dark";
+"Passcode-string" = "Passcode";
+"AttemptsCountToggle-string" = "Attempts counting";
+"CancelAllNotifications-string" = "Cancel all notifications";
+"CancelAllNotificationsTitle-string" = "Are you sure you want to cancel all notifications?";
+"CancelAllPrimaryButton-string" = "Yes";
+"DeleteAllTasks-string" = "Delete all tasks";
+"DeleteAllTasksTitle-string" = "Are you sure you want to delete all tasks?";
+"DeleteAllTasksButton-string" = "Delete";
+
+"PasscodeField-string" = "Enter the passcode";
+"TurnOffPasscode-string" = "Turn off passcode";
+"WrongPasscodeAlert-string" = "Wrong passcode";
+"NewPasscodeField-string" = "New passcode";
+"NewPasscodeField2-string" = "Repeat the passcode";
+"ProtectWithPasscode-string" = "Protect with passcode";
+"BiometricReason-string" = "Biometric unlock";
+
+"NewPasscodeLittersAlert-string" = "Passcode must contain 4 to 8 digits";
+"PasscodeMismatchAlert-string" = "Passcode mismatch";
+
+"AttemptsToggleAlertTitle-string" = "Attempts counting is on";
+"AttemptsToggleAlertMessage-string" = "If this feature is enabled, all data will be deleted after 5 incorrect passcode attempts";
+"AlertOKButton-string" = "OK";
+
+"AttemptsCount-string" = "Attempts left: ";
+"DeletedData-string" = "Data has been deleted";
+
+
+
+
+

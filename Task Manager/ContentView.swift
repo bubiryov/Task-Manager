@@ -8,19 +8,40 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var selectedTab: Tab = .house
+    @EnvironmentObject var vm: TaskManagerViewModel
+        
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+            ZStack {
+                VStack {
+                    if selectedTab == .house {
+                        HomeView()
+                    } else if selectedTab == .recent {
+                        RecentView()
+                    } else {
+                        SettingsView()
+                    }
+                }
+                .animation(nil, value: selectedTab)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                
+                TabBar(selectedTab: $selectedTab)
+                    .offset(y: UIScreen.main.bounds.height * 0.41)
+                
+                LockScreen()
+                    .offset(y: !vm.isUnlocked && vm.block ? 0 : -UIScreen.main.bounds.height)
+                    .animation(.easeInOut(duration: 0.3), value: vm.isUnlocked)
+            }
         }
-        .padding()
+        .ignoresSafeArea(.keyboard)
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environmentObject(TaskManagerViewModel())
+            .environmentObject(ColorSchemeManager())
     }
 }

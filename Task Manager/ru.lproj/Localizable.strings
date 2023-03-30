@@ -1,0 +1,59 @@
+/* 
+  Localizable.strings
+  Task Manager
+
+  Created by Egor Bubiryov on 11.03.2023.
+  
+*/
+
+"HomeViewTitle-string" = "Задачи";
+"HomeSearchTextField-string" = "Поиск";
+"AddTitleTextField-string" = "Новая задача";
+"AddNotesTextEditor-string" = "Заметки:";
+"EditViewNotification-string" = "Напоминание";
+"EditViewTitleTextField-string" = "Запишите задачу";
+"EditViewNotificationDate-string" = "Дата";
+"EditViewNotificationButton-string" = "Напомнить";
+"EditViewDoneButton-string" = "Готово";
+"EmptyTaskTitle-string" = "Пустая задача";
+
+"RecentTitle-string" = "Выполненное";
+"RecentAlertTitle-string" = "Вы уверены, что хотите очистить список?";
+"RecentAlertMessage-string" = "Это действие будет нельзя отменить";
+"RecentAlertPrimaryButton-string" = "Очистить";
+
+"SettingsTitle-string" = "Настройки";
+"SchemePickerSystem-string" = "Системная";
+"SchemePickerLight-string" = "Светлая";
+"SchemePickerDark-string" = "Тёмная";
+"Passcode-string" = "Пароль";
+"AttemptsCountToggle-string" = "Подсчёт попыток";
+"CancelAllNotifications-string" = "Отменить все напоминания";
+"CancelAllNotificationsTitle-string" = "Вы уверены, что хотите отменить все напоминания?";
+"CancelAllPrimaryButton-string" = "Да";
+"DeleteAllTasks-string" = "Удалить все задачи";
+"DeleteAllTasksTitle-string" = "Вы уверены, что хотите удалить все задачи?";
+"DeleteAllTasksButton-string" = "Удалить";
+
+"PasscodeField-string" = "Введите пароль";
+"TurnOffPasscode-string" = "Выключить пароль";
+"WrongPasscodeAlert-string" = "Неверный пароль";
+"NewPasscodeField-string" = "Новый пароль";
+"NewPasscodeField2-string" = "Повторите пароль";
+"ProtectWithPasscode-string" = "Установить пароль";
+"BiometricReason-string" = "Биометрическая разблокировка";
+
+"NewPasscodeLittersAlert-string" = "Пароль должен содержать от 4 до 8 цифр";
+"PasscodeMismatchAlert-string" = "Пароли не совпадают";
+
+"AttemptsToggleAlertTitle-string" = "Подсчёт попыток включён";
+"AttemptsToggleAlertMessage-string" = "Если эта функция включена, все данные будут удалены после 5 неправильных попыток ввода пароля";
+"AlertOKButton-string" = "Хорошо";
+
+"AttemptsCount-string" = "Попыток осталось: ";
+"DeletedData-string" = "Все данные были удалены";
+
+
+
+
+
