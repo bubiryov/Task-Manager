@@ -10,6 +10,8 @@ import SwiftUI
 import CoreData
 import LocalAuthentication
 
+// Some changes
+
 class TaskManagerViewModel: ObservableObject {
     
     let container: NSPersistentContainer
