@@ -12,7 +12,7 @@ import SwiftUI
 
 class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
-    var vm = TaskManagerViewModel()
+    @EnvironmentObject var vm: TaskManagerViewModel
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
 
