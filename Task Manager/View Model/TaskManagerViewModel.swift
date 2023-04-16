@@ -8,7 +8,6 @@
 import Foundation
 import SwiftUI
 import CoreData
-import LocalAuthentication
 
 class TaskManagerViewModel: ObservableObject {
     
@@ -146,15 +145,7 @@ class TaskManagerViewModel: ObservableObject {
     }
     
     func getBiometryType() {
-        let context = LAContext()
-        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) {
-            if #available(iOS 11.0, *) {
-                biometryType = context.biometryType == .faceID ? "faceid" : "touchid"
-            } else {
-                biometryType = "touchid"
-            }
-        }
+        biometryType = BiometryManager.getBiometryType()
     }
 }
-
 

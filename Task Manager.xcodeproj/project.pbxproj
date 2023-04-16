@@ -27,6 +27,7 @@
 		899E1E4629C8D35E00F8E90B /* NotificationToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 899E1E4529C8D35E00F8E90B /* NotificationToggle.swift */; };
 		899E1E4829C8D3B300F8E90B /* NotificationOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 899E1E4729C8D3B300F8E90B /* NotificationOptions.swift */; };
 		899E1E4A29C8E42E00F8E90B /* SheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 899E1E4929C8E42E00F8E90B /* SheetView.swift */; };
+		89A1CCBB29EBF7480022668C /* BiometryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A1CCBA29EBF7480022668C /* BiometryManager.swift */; };
 		89ACC47D29B641C900D4CAFA /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89ACC47C29B641C900D4CAFA /* NotificationManager.swift */; };
 		89B1022B29B0F91F00DBF9F0 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B1022A29B0F91F00DBF9F0 /* SettingsView.swift */; };
 		89B1022D29B0F93F00DBF9F0 /* RecentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89B1022C29B0F93F00DBF9F0 /* RecentView.swift */; };
@@ -65,6 +66,7 @@
 		899E1E4529C8D35E00F8E90B /* NotificationToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationToggle.swift; sourceTree = "<group>"; };
 		899E1E4729C8D3B300F8E90B /* NotificationOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationOptions.swift; sourceTree = "<group>"; };
 		899E1E4929C8E42E00F8E90B /* SheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetView.swift; sourceTree = "<group>"; };
+		89A1CCBA29EBF7480022668C /* BiometryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometryManager.swift; sourceTree = "<group>"; };
 		89ACC47C29B641C900D4CAFA /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		89B1022A29B0F91F00DBF9F0 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		89B1022C29B0F93F00DBF9F0 /* RecentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentView.swift; sourceTree = "<group>"; };
@@ -256,6 +258,7 @@
 				894ADB9B29C0B70C00B2CEB8 /* AppDelegate.swift */,
 				899E1E2029C8970700F8E90B /* ColorSchemeManager.swift */,
 				897A627B29C3BAA000F33CC1 /* HapticManager.swift */,
+				89A1CCBA29EBF7480022668C /* BiometryManager.swift */,
 			);
 			path = "View Model";
 			sourceTree = "<group>";
@@ -365,6 +368,7 @@
 				899E1E4829C8D3B300F8E90B /* NotificationOptions.swift in Sources */,
 				89EE84CE29AF6CD1008A13CF /* TaskManagerViewModel.swift in Sources */,
 				89B1023029B10A7B00DBF9F0 /* TabBar.swift in Sources */,
+				89A1CCBB29EBF7480022668C /* BiometryManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
