@@ -37,7 +37,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
 
         let identifier = response.notification.request.identifier
-        guard let task = vm.allTasks.first(where: { $0.id == identifier }) else { return }
+        guard let task = vm.dataManager.allTasks.first(where: { $0.id == identifier }) else { return }
         print(task.title!)
         completionHandler()
     }

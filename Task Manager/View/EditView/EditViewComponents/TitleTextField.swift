@@ -33,7 +33,7 @@ struct TitleTextField_Previews: PreviewProvider {
     static var previews: some View {
         TitleTextField(
             taskTitle: .constant("Some important task"),
-            task: TaskManagerViewModel().allTasks[0]
+            task: TaskManagerViewModel().dataManager.allTasks[0]
         )
             .environmentObject(TaskManagerViewModel())
     }

@@ -59,7 +59,7 @@ struct TaskRow: View {
 
 struct TaskRow_Previews: PreviewProvider {
     static var previews: some View {
-        TaskRow(task: TaskManagerViewModel().allTasks[0])
+        TaskRow(task: TaskManagerViewModel().dataManager.allTasks[0])
             .environmentObject(TaskManagerViewModel())
     }
 }

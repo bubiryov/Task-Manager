@@ -13,7 +13,7 @@ struct SearchButton: View {
         
     var body: some View {
         
-        let inMainList = vm.allTasks.filter { $0.inRecent == false }
+        let inMainList = vm.dataManager.allTasks.filter { $0.inRecent == false }
         
         Button {
             withAnimation(.easeOut(duration: 0.2)) {

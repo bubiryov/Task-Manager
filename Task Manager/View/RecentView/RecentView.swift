@@ -12,7 +12,7 @@ struct RecentView: View {
     @EnvironmentObject var vm: TaskManagerViewModel
     
     var body: some View {
-        let recentTasks = vm.allTasks.filter { $0.inRecent == true }
+        let recentTasks = vm.dataManager.allTasks.filter { $0.inRecent == true }
 
         NavigationView {
             ZStack {

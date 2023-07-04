@@ -15,7 +15,7 @@ struct BasketButton: View {
     
     var body: some View {
         Button {
-            if vm.allTasks.filter({ $0.inRecent }).count > 0 {
+            if vm.dataManager.allTasks.filter({ $0.inRecent }).count > 0 {
                 HapticManager.instance.impact(style: .light)
                 showAlert = true
             } else {

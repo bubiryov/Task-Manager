@@ -12,7 +12,6 @@ struct NotificationOptions: View {
     @EnvironmentObject var vm: TaskManagerViewModel
     @Binding var date: Date
     var plusMinuteDate = Calendar.current.date(byAdding: .minute, value: 5, to: Date())!
-//    @Binding var date: Date
     var task: TaskEntity
     var spacingValue: CGFloat
     
@@ -23,11 +22,9 @@ struct NotificationOptions: View {
                        selection: $date,
                        in: plusMinuteDate...,
                        displayedComponents: [.date, .hourAndMinute])
-//                .environment(\.locale, Locale(identifier: "ua_UA"))
                 .environment(\.locale, Locale.autoupdatingCurrent)
                 .tint(.tabBarColor)
                 .onAppear {
-                    // Локализация календаря
                     let formatter = DateFormatter()
                     formatter.locale = Locale.autoupdatingCurrent
                     if Locale.current.language.languageCode?.identifier == "ru" {
@@ -56,9 +53,8 @@ struct NotificationOptions_Previews: PreviewProvider {
     static var previews: some View {
         NotificationOptions(
             date: .constant(Date()),
-            task: TaskManagerViewModel().allTasks[0],
-            spacingValue: 30
-        )
+            task: TaskManagerViewModel().dataManager.allTasks[0],
+            spacingValue: 30)
             .environmentObject(TaskManagerViewModel())
     }
 }

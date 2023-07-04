@@ -18,6 +18,6 @@ class BiometryManager {
                 return "touchid"
             }
         }
-        return ""
+        return "touchid"
     }
 }

@@ -108,14 +108,7 @@ struct SettingsView: View {
                                 },
                               secondaryButton: .cancel())
                     }
-                                        
-//                    Button {
-//                        vm.addTask(title: "Test", note: "")
-//                    } label: {
-//                        Text("Add test")
-//                    }
-//
-                    
+                                                            
                     Spacer()
                 }
                 .navigationTitle("SettingsTitle-string")

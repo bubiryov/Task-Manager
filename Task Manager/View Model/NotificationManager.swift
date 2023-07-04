@@ -41,7 +41,6 @@ class NotificationManager {
         vm.toSave()
         print("New request done")
     }
-
     
     func addNotification(task: TaskEntity, vm: TaskManagerViewModel, date: Date) async {
         if task.notification {
@@ -61,15 +60,13 @@ class NotificationManager {
     }
     
     func cancelAll(_ vm: TaskManagerViewModel) {
-        for task in vm.allTasks {
+        for task in vm.dataManager.allTasks {
             task.notification = false
             task.dateLabel = ""
             vm.toSave()
         }
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-        print("All requests was deleted \(Thread.current)")
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
-        print("All delivered notifications was deleted \(Thread.current)")
         UIApplication.shared.applicationIconBadgeNumber = 0
     }
     

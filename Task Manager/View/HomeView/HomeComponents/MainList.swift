@@ -13,7 +13,7 @@ struct MainList: View {
     
     var body: some View {
         
-        let mainTasks = vm.allTasks.filter { $0.inRecent == false }
+        let mainTasks = vm.dataManager.allTasks.filter { $0.inRecent == false }
         
         List {
             ForEach(mainTasks.reversed().filter { task in

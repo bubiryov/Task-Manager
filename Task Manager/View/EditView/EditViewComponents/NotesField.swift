@@ -41,8 +41,8 @@ struct NotesField_Previews: PreviewProvider {
     static var previews: some View {
         NotesField(
             taskNotes: .constant(""),
-            task: TaskManagerViewModel().allTasks[0]
+            task: TaskManagerViewModel().dataManager.allTasks[0]
         )
-            .environmentObject(TaskManagerViewModel())
+        .environmentObject(TaskManagerViewModel())
     }
 }

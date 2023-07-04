@@ -34,7 +34,7 @@ struct NotificationToggle_Previews: PreviewProvider {
     static var previews: some View {
         NotificationToggle(
             notification: .constant(true),
-            task: TaskManagerViewModel().allTasks[0]
+            task: TaskManagerViewModel().dataManager.allTasks[0]
         )
         .environmentObject(TaskManagerViewModel())
     }

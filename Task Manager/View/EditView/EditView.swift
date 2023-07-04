@@ -22,8 +22,8 @@ struct EditView: View {
     
     init(task: TaskEntity) {
         self.task = task
-        _taskTitle = State(initialValue: task.title!)
-        _taskNotes = State(initialValue: task.notes!)
+        _taskTitle = State(initialValue: task.title ?? "")
+        _taskNotes = State(initialValue: task.notes ?? "")
         _notification = State(initialValue: task.notification)
     }
     
@@ -97,112 +97,7 @@ struct EditView: View {
 struct TaskEditView_Previews: PreviewProvider {
     static var previews: some View {
         let vm = TaskManagerViewModel()
-        EditView(task: vm.allTasks[0])
+        EditView(task: vm.dataManager.allTasks[0])
             .environmentObject(TaskManagerViewModel())
     }
 }
-
-//struct NotesField: View {
-//    
-//    @EnvironmentObject var vm: TaskManagerViewModel
-//    @Binding var taskNotes: String
-//    var task: TaskEntity
-//    
-//    var body: some View {
-//        VStack(alignment: .leading) {
-//            Text("Notes:")
-//                .font(.subheadline)
-//                .foregroundColor(.gray)
-//            
-//            TextEditor(text: $taskNotes)
-//                .tint(.tabBarColor)
-//                .padding(5)
-//                .font(.system(size: 23))
-//                .scrollContentBackground(.hidden)
-//                .background(Color.gray.opacity(0.2))
-//                .cornerRadius(10)
-//                .foregroundColor(.primary)
-//                .onChange(of: taskNotes) { newValue in
-//                    task.notes = newValue
-//                    task.completion = false
-//                    vm.toSave()
-//                }
-//        }
-//        .frame(maxHeight: UIScreen.main.bounds.height / 5)
-//    }
-//}
-
-//struct NotificationToggle: View {
-//    
-//    @EnvironmentObject var vm: TaskManagerViewModel
-//    @Binding var notification: Bool
-//    var task: TaskEntity
-//        
-//    var body: some View {
-//        Toggle(isOn: $notification.animation()) {
-////            Text(task.dateLabel! == "" ? "Notification" : task.dateLabel!)
-//            Text("Some date")
-//        }
-//        .tint(.tabBarColor)
-//        .onChange(of: notification) { _ in
-//            UIApplication.shared.endEditing(true)
-//            if task.notification {
-//                Task {
-//                    await NotificationManager.instance.removeRequest(task, vm)
-//                }
-//            }
-//        }
-//    }
-//}
-
-//struct TitleTextField: View {
-//    
-//    @EnvironmentObject var vm: TaskManagerViewModel
-//    @Binding var taskTitle: String
-//    var task: TaskEntity
-//    
-//    var body: some View {
-//        VStack(alignment: .leading) {
-//            TextField("Write your task", text: $taskTitle)
-//                .font(.title)
-//                .bold()
-//                .onChange(of: taskTitle) { newValue in
-//                    task.title = newValue
-//                    task.completion = false
-//                    vm.toSave()
-//                }
-//                .minimumScaleFactor(0.65)
-//                .frame(height: 7)
-//        }
-//    }
-//}
-
-//struct NotificationOptions: View {
-//    
-//    @EnvironmentObject var vm: TaskManagerViewModel
-//    @Binding var date: Date
-//    var task: TaskEntity
-//    var spacingValue: CGFloat
-//    
-//    var body: some View {
-//        VStack(spacing: spacingValue) {
-//            DatePicker("Date", selection: $date, in: date..., displayedComponents: [.date, .hourAndMinute])
-//                .environment(\.locale, Locale(identifier: "ua_UA"))
-//                .tint(.tabBarColor)
-//            
-//            Button {
-//                Task {
-//                    await NotificationManager.instance.addNotification(task: task, vm: vm, date: date)
-//                    task.completion = false
-//                }
-//            } label: {
-//                Text("Notification")
-//                    .foregroundColor(.white)
-//                    .padding(.horizontal, 20)
-//                    .padding(.vertical, 7)
-//                    .background(Color.tabBarColor)
-//                    .clipShape(RoundedRectangle(cornerRadius: 20))
-//            }
-//        }
-//    }
-//}
