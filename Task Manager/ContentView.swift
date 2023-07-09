@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var selectedTab: Tab = .house
+    @EnvironmentObject var dataManager: DataManager
     @EnvironmentObject var vm: TaskManagerViewModel
         
     var body: some View {
@@ -40,8 +41,10 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
+        let dataManager = DataManager()
         ContentView()
-            .environmentObject(TaskManagerViewModel())
+            .environmentObject(TaskManagerViewModel(dataManager: dataManager))
             .environmentObject(ColorSchemeManager())
+            .environmentObject(dataManager)
     }
 }

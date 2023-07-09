@@ -39,10 +39,11 @@ struct NotesField: View {
 
 struct NotesField_Previews: PreviewProvider {
     static var previews: some View {
+        let dataManager = DataManager()
         NotesField(
             taskNotes: .constant(""),
-            task: TaskManagerViewModel().dataManager.allTasks[0]
+            task: TaskManagerViewModel(dataManager: dataManager).dataManager.allTasks[0]
         )
-        .environmentObject(TaskManagerViewModel())
+        .environmentObject(TaskManagerViewModel(dataManager: dataManager))
     }
 }

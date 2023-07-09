@@ -106,6 +106,6 @@ struct PasscodeButton: View {
 struct PasscodeButton_Previews: PreviewProvider {
     static var previews: some View {
         PasscodeButton(passcode: .constant("0000"), value: "1")
-            .environmentObject(TaskManagerViewModel())
+            .environmentObject(TaskManagerViewModel(dataManager: DataManager()))
     }
 }

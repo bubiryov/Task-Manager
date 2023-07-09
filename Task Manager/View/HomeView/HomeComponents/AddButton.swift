@@ -38,6 +38,6 @@ struct AddButton: View {
 struct AddButton_Previews: PreviewProvider {
     static var previews: some View {
         AddButton(showAddWindow: .constant(false))
-            .environmentObject(TaskManagerViewModel())
+            .environmentObject(TaskManagerViewModel(dataManager: DataManager()))
     }
 }

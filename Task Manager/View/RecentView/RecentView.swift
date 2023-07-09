@@ -50,7 +50,7 @@ struct RecentView: View {
 struct RecentView_Previews: PreviewProvider {
     static var previews: some View {
         RecentView()
-            .environmentObject(TaskManagerViewModel())
+            .environmentObject(TaskManagerViewModel(dataManager: DataManager()))
     }
 }
 

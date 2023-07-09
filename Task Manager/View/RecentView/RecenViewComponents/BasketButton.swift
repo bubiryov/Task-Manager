@@ -41,6 +41,6 @@ struct BasketButton: View {
 struct BasketButton_Previews: PreviewProvider {
     static var previews: some View {
         BasketButton()
-            .environmentObject(TaskManagerViewModel())
+            .environmentObject(TaskManagerViewModel(dataManager: DataManager()))
     }
 }

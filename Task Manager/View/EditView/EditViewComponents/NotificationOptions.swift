@@ -51,11 +51,12 @@ struct NotificationOptions: View {
 
 struct NotificationOptions_Previews: PreviewProvider {
     static var previews: some View {
+        let dataManager = DataManager()
         NotificationOptions(
             date: .constant(Date()),
-            task: TaskManagerViewModel().dataManager.allTasks[0],
+            task: TaskManagerViewModel(dataManager: dataManager).dataManager.allTasks[0],
             spacingValue: 30)
-            .environmentObject(TaskManagerViewModel())
+        .environmentObject(TaskManagerViewModel(dataManager: dataManager))
     }
 }
 

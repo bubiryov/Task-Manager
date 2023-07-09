@@ -59,7 +59,8 @@ struct TaskRow: View {
 
 struct TaskRow_Previews: PreviewProvider {
     static var previews: some View {
-        TaskRow(task: TaskManagerViewModel().dataManager.allTasks[0])
-            .environmentObject(TaskManagerViewModel())
+        let dataManager = DataManager()
+        TaskRow(task: TaskManagerViewModel(dataManager: dataManager).dataManager.allTasks[0])
+            .environmentObject(TaskManagerViewModel(dataManager: dataManager))
     }
 }

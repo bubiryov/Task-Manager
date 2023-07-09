@@ -20,12 +20,20 @@ struct Task_ManagerApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
     @StateObject var csManager = ColorSchemeManager()
-    @StateObject var vm = TaskManagerViewModel()
+    @StateObject var vm: TaskManagerViewModel
+    @StateObject var dataManager: DataManager
+    
+    init() {
+        let dataManager = DataManager()
+        _dataManager = StateObject(wrappedValue: dataManager)
+        _vm = StateObject(wrappedValue: TaskManagerViewModel(dataManager: dataManager))
+    }
             
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(vm)
+                .environmentObject(dataManager)
                 .environmentObject(csManager)
                 .onAppear {
                     csManager.applyColorScheme()

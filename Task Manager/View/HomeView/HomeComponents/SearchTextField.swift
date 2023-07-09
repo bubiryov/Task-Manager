@@ -30,6 +30,6 @@ struct SearchTextField: View {
 struct SearchTextField_Previews: PreviewProvider {
     static var previews: some View {
         SearchTextField()
-            .environmentObject(TaskManagerViewModel())
+            .environmentObject(TaskManagerViewModel(dataManager: DataManager()))
     }
 }
