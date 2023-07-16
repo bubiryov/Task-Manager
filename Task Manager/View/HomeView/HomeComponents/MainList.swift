@@ -40,6 +40,6 @@ struct MainList: View {
 struct MainList_Previews: PreviewProvider {
     static var previews: some View {
         MainList()
-            .environmentObject(TaskManagerViewModel(dataManager: DataManager()))
+            .environmentObject(TaskManagerViewModel())
     }
 }

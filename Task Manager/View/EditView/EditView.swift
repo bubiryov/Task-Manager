@@ -96,9 +96,8 @@ struct EditView: View {
 
 struct TaskEditView_Previews: PreviewProvider {
     static var previews: some View {
-        let dataManager = DataManager()
-        let vm = TaskManagerViewModel(dataManager: dataManager)
+        let vm = TaskManagerViewModel()
         EditView(task: vm.dataManager.allTasks[0])
-            .environmentObject(TaskManagerViewModel(dataManager: dataManager))
+            .environmentObject(TaskManagerViewModel())
     }
 }

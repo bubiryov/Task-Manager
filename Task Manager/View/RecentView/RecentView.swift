@@ -50,37 +50,6 @@ struct RecentView: View {
 struct RecentView_Previews: PreviewProvider {
     static var previews: some View {
         RecentView()
-            .environmentObject(TaskManagerViewModel(dataManager: DataManager()))
+            .environmentObject(TaskManagerViewModel())
     }
 }
-
-//struct BasketButton: View {
-//    
-//    @EnvironmentObject var vm: TaskManagerViewModel
-//    @State private var showAlert: Bool = false
-//    @Environment(\.colorScheme) var colorScheme
-//    
-//    var body: some View {
-//        Button {
-//            if vm.allTasks.filter({ $0.inRecent }).count > 0 {
-//                HapticManager.instance.impact(style: .light)
-//                showAlert = true
-//            } else {
-//                HapticManager.instance.errorHaptic()
-//            }
-//        } label: {
-//            Image(systemName: "trash")
-//                .foregroundColor(.red.opacity(0.8))
-//                .bold()
-//        }
-//        .alert(isPresented: $showAlert) {
-//            Alert(title: Text("Are you sure you want to clear the list?"),
-//                  message: Text("This action will not be undone"),
-//                  primaryButton:
-//                    .destructive(Text("Delete")) {
-//                        vm.deleteAllRecent()
-//                    },
-//                  secondaryButton: .cancel())
-//        }
-//    }
-//}

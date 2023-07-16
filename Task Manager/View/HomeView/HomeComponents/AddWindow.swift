@@ -79,6 +79,6 @@ struct AddWindow: View {
 struct AddView_Previews: PreviewProvider {
     static var previews: some View {
         AddWindow(showWindow: .constant(false))
-            .environmentObject(TaskManagerViewModel(dataManager: DataManager()))
+            .environmentObject(TaskManagerViewModel())
     }
 }

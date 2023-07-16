@@ -26,16 +26,15 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
             }
         }
                 
-        NotificationCenter.default.addObserver(self, selector: #selector(calendarDayDidChange), name: .NSCalendarDayChanged, object: nil)
-
         UNUserNotificationCenter.current().delegate = self
+        
         return true
     }
     
-    @objc private func calendarDayDidChange() {
-        vm.addToRecent()
-    }
-
+//    @objc private func calendarDayDidChange() {
+//        vm.addToRecent()
+//    }
+//
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.banner, .sound])

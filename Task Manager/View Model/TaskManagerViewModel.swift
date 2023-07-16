@@ -11,12 +11,8 @@ import CoreData
 
 class TaskManagerViewModel: ObservableObject {
     
-    var dataManager: DataManager
-    
-    init(dataManager: DataManager) {
-        self.dataManager = dataManager
-    }
-    
+    var dataManager: DataManager = DataManager()
+        
     @AppStorage("passcode") var passcode = ""
     @AppStorage("isLocked") var block = false
     @AppStorage("attempts") var attempts = 0 {

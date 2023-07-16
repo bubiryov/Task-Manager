@@ -71,7 +71,7 @@ struct LockScreen: View {
 struct LockScreen_Previews: PreviewProvider {
     static var previews: some View {
         LockScreen()
-            .environmentObject(TaskManagerViewModel(dataManager: DataManager()))
+            .environmentObject(TaskManagerViewModel())
     }
 }
 
