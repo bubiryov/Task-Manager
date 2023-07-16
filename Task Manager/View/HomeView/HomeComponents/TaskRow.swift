@@ -16,7 +16,7 @@ struct TaskRow: View {
         HStack {
             Image(systemName: task.completion ? "checkmark.square.fill" : "square")
                 .foregroundColor(task.completion ? .tabBarColor : .primary)
-                .font(.system(size: 23))
+                .font(.system(size: 20))
                 .onTapGesture {
                     withAnimation(.linear(duration: 0.1)) {
                         HapticManager.instance.impact(style: .light)
@@ -34,7 +34,7 @@ struct TaskRow: View {
             Text(task.title ?? "" != "" ? task.title ?? "" : "EmptyTaskTitle-string".localized)
                 .opacity(task.title ?? "" == "" ? 0.4 : 1)
                 .opacity(task.completion ? 0.4 : 1)
-                .font(.title2)
+                .font(.title3)
                 .lineLimit(1)
                 .padding(.leading, 5)
                 .foregroundColor(.primary)

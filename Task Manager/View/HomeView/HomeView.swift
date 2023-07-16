@@ -22,13 +22,20 @@ struct HomeView: View {
                         if vm.showSearch {
                             SearchTextField()
                         }
+                        
                         MainList()
                         
                         Spacer()
                     }
                     
-                    AddButton(showAddWindow: $showAddWindow)
-                        .offset(y: UIScreen.main.bounds.height * 0.28)
+                    HStack {
+                        Spacer()
+                        
+                        AddButton(showAddWindow: $showAddWindow)
+                            .offset(y: UIScreen.main.bounds.height * 0.28)
+                            .padding(.bottom, 100)
+                        .padding(.trailing)
+                    }
                 }
                 .toolbar(content: {
                     ToolbarItem(placement: .navigationBarTrailing) {

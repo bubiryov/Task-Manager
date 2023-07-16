@@ -10,7 +10,7 @@
  1. Счетчик бейджей
  2. Перенос выполненных задач в "Недавние" в 00:00
  3. Переход по уведомлению (перестают работать некоторые асинхронные функции)
-  */
+*/
 
 import SwiftUI
 
@@ -21,11 +21,12 @@ struct Task_ManagerApp: App {
     
     @StateObject var csManager = ColorSchemeManager()
     @StateObject var vm: TaskManagerViewModel
-    @StateObject var dataManager: DataManager
+    var dataManager: DataManager
     
     init() {
         let dataManager = DataManager()
-        _dataManager = StateObject(wrappedValue: dataManager)
+        self.dataManager = dataManager
+//        _dataManager = StateObject(wrappedValue: dataManager)
         _vm = StateObject(wrappedValue: TaskManagerViewModel(dataManager: dataManager))
     }
             
@@ -33,11 +34,11 @@ struct Task_ManagerApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(vm)
-                .environmentObject(dataManager)
+//                .environmentObject(dataManager)
                 .environmentObject(csManager)
                 .onAppear {
                     csManager.applyColorScheme()
-                    vm.addToRecent()
+//                    vm.addToRecent()
                 }
         }
     }

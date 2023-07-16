@@ -20,18 +20,13 @@ struct AddButton: View {
                 vm.titleKeyboardFocus = true
             }
         } label: {
-            Circle()
-                .overlay {
-                    Text("+")
-                        .foregroundColor(.white)
-                        .font(.system(size: 40))
-                }
+            Text("+")
+                .foregroundColor(.white)
+                .font(.system(size: 40))
         }
-        .foregroundColor(.tabBarColor)
-        .frame(width: 70)
-        .padding(.bottom, 100)
-        .padding(.trailing)
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing)
+        .frame(width: 70, height: 70)
+        .background(Color.tabBarColor)
+        .clipShape(Circle())
     }
 }
 

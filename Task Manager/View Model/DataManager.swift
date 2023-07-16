@@ -10,7 +10,7 @@ import CoreData
 import UserNotifications
 import SwiftUI
 
-class DataManager: ObservableObject {
+class DataManager {
     
     let container: NSPersistentContainer
     @Published var allTasks: [TaskEntity] = []
@@ -46,12 +46,13 @@ class DataManager: ObservableObject {
         newTask.dateLabel = ""
         newTask.inRecent = false
         toSave()
+        fetchTasks()
     }
     
     func toSave() {
         do {
             try container.viewContext.save()
-            fetchTasks()
+//            fetchTasks()
         } catch let error {
             print("ERROR OF SAVING \(error)")
         }
@@ -73,6 +74,7 @@ class DataManager: ObservableObject {
             task.inRecent = false
         }
         toSave()
+        fetchTasks()
     }
     
     func deleteTask(indexSet: IndexSet) {
@@ -83,6 +85,7 @@ class DataManager: ObservableObject {
         }
         container.viewContext.delete(task)
         toSave()
+        fetchTasks()
     }
         
     func deleteAllTasks(_ vm: TaskManagerViewModel) {
@@ -107,6 +110,7 @@ class DataManager: ObservableObject {
             }
         }
         toSave()
+        fetchTasks()
     }
     
     func deleteAllRecent() {
@@ -121,6 +125,7 @@ class DataManager: ObservableObject {
             }
         }
         toSave()
+        fetchTasks()
     }
 
 

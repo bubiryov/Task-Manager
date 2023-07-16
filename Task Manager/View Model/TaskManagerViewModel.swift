@@ -65,6 +65,7 @@ class TaskManagerViewModel: ObservableObject {
     
     func deleteTask(indexSet: IndexSet) {
         dataManager.deleteTask(indexSet: indexSet)
+        fetchTasks()
     }
         
     func deleteAllTasks() {
@@ -77,6 +78,7 @@ class TaskManagerViewModel: ObservableObject {
     
     func deleteAllRecent() {
         dataManager.deleteAllRecent()
+        fetchTasks()
     }
     
     func getBiometryType() {
