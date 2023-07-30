@@ -1,4 +1,11 @@
-# Task-Manager
+# Task Manager
+
+Welcome to the world of organization and productivity, where every moment becomes valuable and fulfilling! Introducing our unique app - your reliable and intuitive Task Manager.
+
+Forget about confusion and clogged schedules - our app will make the path to achieving your goals clear and exciting. Record your tasks with ease by entering them into our user-friendly interface. Set reminders and enjoy your victories, one by one.
+
+Life becomes manageable and organized when you use our app. You no longer have to worry about missed deadlines or forgotten to-dos. Our reminders will keep you on time and one step ahead.
+
 <img width="433" alt="SCR-20230723-rfbs" src="https://github.com/bubiryov/Task-Manager/assets/124048186/572625f3-eb66-4777-b57b-551e7cec7ff5">
 <img width="433" alt="SCR-20230723-rews" src="https://github.com/bubiryov/Task-Manager/assets/124048186/a36d4fa5-97dd-4667-9306-a98934ac14a7">
 <img width="433" alt="SCR-20230723-rfgd" src="https://github.com/bubiryov/Task-Manager/assets/124048186/55e3091b-ced9-4c9e-b9e2-08a3992d8968">
