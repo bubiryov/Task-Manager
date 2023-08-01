@@ -23,7 +23,11 @@ struct RecentView: View {
                         ForEach(recentTasks.reversed()) { task in
                             TaskRow(task: task)
                         }
-                        .onDelete(perform: vm.deleteTask)
+//                        .onDelete(perform: vm.deleteTask)
+                        .onDelete(perform: { indexSet in
+                            vm.deleteTask(indexSet: indexSet, recentList: true)
+                        })
+
                         .listRowSeparator(.hidden)
                         .listRowBackground(Color.backgroundColor)
                     }

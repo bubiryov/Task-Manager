@@ -14,7 +14,6 @@ struct PasscodeButton: View {
     @Binding var passcode: String
     var value: String
     
-    
     var body: some View {
         Button {
             tapButton()
@@ -22,18 +21,6 @@ struct PasscodeButton: View {
             Circle()
                 .fill(Color.tabBarColor)
                 .frame(width: 80)
-//                .overlay {
-//                    if value != "touchid" {
-//                        Text(value)
-//                            .foregroundColor(Color.white)
-//                            .font(.system(size: 30))
-//                            .bold()
-//                    } else {
-//                        Image(systemName: "touchid")
-//                            .foregroundColor(Color.white)
-//                            .font(.system(size: 30))
-//                    }
-//                }
                 .overlay {
                     if value != vm.biometryType {
                         Text(value)

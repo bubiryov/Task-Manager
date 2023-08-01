@@ -9,6 +9,7 @@ import Foundation
 import CoreData
 import UserNotifications
 import SwiftUI
+import WidgetKit
 
 class DataManager {
     
@@ -17,23 +18,34 @@ class DataManager {
     
     init() {
         container = NSPersistentContainer(name: "TaskModel")
+        
+        let url = URL.storeURL(for: "group.com.icloud-bubiryov.Task-Manager", databaseName: "TaskModel")
+        let storeDescription = NSPersistentStoreDescription(url: url)
+        container.persistentStoreDescriptions = [storeDescription]
         container.loadPersistentStores { description, error in
             if let error = error {
                 print("ERROR LOADING COREDATA \(error)")
             } else {
-                self.fetchTasks()
+                self.getTasks()
                 print("Succesfully loaded core data")
             }
         }
     }
-
-    func fetchTasks() {
+    
+    func fetchTasks() -> [TaskEntity] {
         let request = NSFetchRequest<TaskEntity>(entityName: "TaskEntity")
+        var tasks: [TaskEntity] = []
         do {
-           allTasks = try container.viewContext.fetch(request)
+           tasks = try container.viewContext.fetch(request)
         } catch let error {
             print("ERROR FETCHING \(error)")
         }
+        WidgetCenter.shared.reloadAllTimelines()
+        return tasks
+    }
+
+    func getTasks() {
+        allTasks = fetchTasks()
     }
     
     func addTask(title: String, note: String) {
@@ -46,7 +58,7 @@ class DataManager {
         newTask.dateLabel = ""
         newTask.inRecent = false
         toSave()
-        fetchTasks()
+        getTasks()
     }
     
     func toSave() {
@@ -74,32 +86,27 @@ class DataManager {
             task.inRecent = false
         }
         toSave()
-        fetchTasks()
+        getTasks()
     }
     
-    func deleteTask(indexSet: IndexSet) {
+    func deleteTask(indexSet: IndexSet, recentList: Bool) {
         guard let index = indexSet.first else { return }
-        let task = allTasks.reversed()[index]
+        let task = recentList ? allTasks.filter({ $0.inRecent }).reversed()[index] : allTasks.filter({ !$0.inRecent }).reversed()[index]
         if task.notification {
             UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [task.id!])
         }
         container.viewContext.delete(task)
         toSave()
-        fetchTasks()
+        getTasks()
     }
         
-    func deleteAllTasks(_ vm: TaskManagerViewModel) {
+    func deleteAllTasks() throws {
         
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = TaskEntity.fetchRequest()
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-
-        do {
-            NotificationManager.instance.cancelAll(vm)
-            try container.persistentStoreCoordinator.execute(deleteRequest, with: container.viewContext)
-            fetchTasks()
-        } catch let error {
-            print("Failed to delete tasks. Error: \(error)")
-        }
+        
+        try container.persistentStoreCoordinator.execute(deleteRequest, with: container.viewContext)
+        getTasks()
     }
     
     func addToRecent() {
@@ -110,7 +117,7 @@ class DataManager {
             }
         }
         toSave()
-        fetchTasks()
+        getTasks()
     }
     
     func deleteAllRecent() {
@@ -125,8 +132,15 @@ class DataManager {
             }
         }
         toSave()
-        fetchTasks()
+        getTasks()
     }
+}
 
-
+public extension URL {
+    static func storeURL(for appGroup: String, databaseName: String) -> URL {
+        guard let fileContainer = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroup) else {
+            fatalError("Unable to create URL for \(appGroup)")
+        }
+        return fileContainer.appendingPathComponent("\(databaseName).sqlite")
+    }
 }

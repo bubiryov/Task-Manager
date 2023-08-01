@@ -12,7 +12,12 @@ import CoreData
 class TaskManagerViewModel: ObservableObject {
     
     var dataManager: DataManager = DataManager()
-        
+    weak var notificationManager: NotificationManager?
+    
+    init() {
+        notificationManager = NotificationManager.instance
+    }
+            
     @AppStorage("passcode") var passcode = ""
     @AppStorage("isLocked") var block = false
     @AppStorage("attempts") var attempts = 0 {
@@ -37,7 +42,7 @@ class TaskManagerViewModel: ObservableObject {
     @Published var textEditorFocus: Bool = false
         
     func fetchTasks() {
-        dataManager.fetchTasks()
+        dataManager.getTasks()
         objectWillChange.send()
     }
     
@@ -59,13 +64,18 @@ class TaskManagerViewModel: ObservableObject {
         objectWillChange.send()
     }
     
-    func deleteTask(indexSet: IndexSet) {
-        dataManager.deleteTask(indexSet: indexSet)
+    func deleteTask(indexSet: IndexSet, recentList: Bool) {
+        dataManager.deleteTask(indexSet: indexSet, recentList: recentList)
         fetchTasks()
     }
         
     func deleteAllTasks() {
-        dataManager.deleteAllTasks(self)
+        do {
+            try dataManager.deleteAllTasks()
+            notificationManager?.cancelAll(self)
+        } catch {
+            print("Failed to delete tasks. Error: \(error)")
+        }
     }
     
     func addToRecent() {

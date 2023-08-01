@@ -25,7 +25,10 @@ struct MainList: View {
                     TaskRow(task: task)
                 }
             }
-            .onDelete(perform: vm.deleteTask)
+            .onDelete(perform: { indexSet in
+                vm.deleteTask(indexSet: indexSet, recentList: false)
+            })
+//            .onDelete(perform: vm.deleteTask(recentList: false))
             .listRowSeparator(.hidden)
             .listRowBackground(Color.backgroundColor)
         }
