@@ -9,7 +9,9 @@ import SwiftUI
 
 struct NotificationOptions: View {
     
-    @EnvironmentObject var vm: TaskManagerViewModel
+    @ObservedObject var dataManager: DataManager
+    let notificationManager: NotificationManager
+    
     @Binding var date: Date
     var plusMinuteDate = Calendar.current.date(byAdding: .minute, value: 5, to: Date())!
     var task: TaskEntity
@@ -41,7 +43,11 @@ struct NotificationOptions: View {
             
             AccentButton(label: "EditViewNotificationButton-string".localized) {
                 Task {
-                    await NotificationManager.instance.addNotification(task: task, vm: vm, date: date)
+                    await notificationManager.addNotification(
+                        task: task,
+                        dm: dataManager,
+                        date: date
+                    )
                     task.completion = false
                 }
             }
@@ -51,11 +57,14 @@ struct NotificationOptions: View {
 
 struct NotificationOptions_Previews: PreviewProvider {
     static var previews: some View {
+        let notificationManager = NotificationManager()
+        let dataManager = DataManager(notificationManager: notificationManager)
         NotificationOptions(
+            dataManager: dataManager,
+            notificationManager: notificationManager,
             date: .constant(Date()),
-            task: TaskManagerViewModel().dataManager.allTasks[0],
+            task: dataManager.allTasks[0],
             spacingValue: 30)
-        .environmentObject(TaskManagerViewModel())
     }
 }
 

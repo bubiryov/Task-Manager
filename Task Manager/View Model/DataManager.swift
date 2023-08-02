@@ -11,12 +11,14 @@ import UserNotifications
 import SwiftUI
 import WidgetKit
 
-class DataManager {
+class DataManager: ObservableObject {
     
-    let container: NSPersistentContainer
     @Published var allTasks: [TaskEntity] = []
     
-    init() {
+    let container: NSPersistentContainer
+    weak var notificationManager: NotificationManager?
+    
+    init(notificationManager: NotificationManager) {
         container = NSPersistentContainer(name: "TaskModel")
         
         let url = URL.storeURL(for: "group.com.icloud-bubiryov.Task-Manager", databaseName: "TaskModel")
@@ -30,6 +32,7 @@ class DataManager {
                 print("Succesfully loaded core data")
             }
         }
+        self.notificationManager = notificationManager
     }
     
     func fetchTasks() -> [TaskEntity] {
@@ -41,6 +44,7 @@ class DataManager {
             print("ERROR FETCHING \(error)")
         }
         WidgetCenter.shared.reloadAllTimelines()
+//        objectWillChange.send()
         return tasks
     }
 
@@ -64,6 +68,7 @@ class DataManager {
     func toSave() {
         do {
             try container.viewContext.save()
+//            objectWillChange.send()
 //            fetchTasks()
         } catch let error {
             print("ERROR OF SAVING \(error)")
@@ -87,6 +92,7 @@ class DataManager {
         }
         toSave()
         getTasks()
+//        objectWillChange.send()
     }
     
     func deleteTask(indexSet: IndexSet, recentList: Bool) {
@@ -100,13 +106,17 @@ class DataManager {
         getTasks()
     }
         
-    func deleteAllTasks() throws {
+    func deleteAllTasks() {
         
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = TaskEntity.fetchRequest()
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-        
-        try container.persistentStoreCoordinator.execute(deleteRequest, with: container.viewContext)
-        getTasks()
+        do {
+            try container.persistentStoreCoordinator.execute(deleteRequest, with: container.viewContext)
+            notificationManager?.cancelAll(self)
+            getTasks()
+        } catch {
+            
+        }
     }
     
     func addToRecent() {

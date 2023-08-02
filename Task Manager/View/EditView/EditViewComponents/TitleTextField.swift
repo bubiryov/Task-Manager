@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TitleTextField: View {
     
-    @EnvironmentObject var vm: TaskManagerViewModel
+    @ObservedObject var dataManager: DataManager
     @Binding var taskTitle: String
     var task: TaskEntity
     
@@ -21,7 +21,7 @@ struct TitleTextField: View {
                 .onChange(of: taskTitle) { newValue in
                     task.title = newValue
                     task.completion = false
-                    vm.toSave()
+                    dataManager.toSave()
                 }
                 .minimumScaleFactor(0.65)
                 .frame(height: 7)
@@ -31,10 +31,11 @@ struct TitleTextField: View {
 
 struct TitleTextField_Previews: PreviewProvider {
     static var previews: some View {
+        let dataManager = DataManager(notificationManager: NotificationManager())
         TitleTextField(
+            dataManager: dataManager,
             taskTitle: .constant("Some important task"),
-            task: TaskManagerViewModel().dataManager.allTasks[0]
+            task: dataManager.allTasks[0]
         )
-        .environmentObject(TaskManagerViewModel())
     }
 }

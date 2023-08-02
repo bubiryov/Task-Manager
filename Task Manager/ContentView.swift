@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var selectedTab: Tab = .house
-    @EnvironmentObject var vm: TaskManagerViewModel
+    @EnvironmentObject var interfaceData: InterfaceData
         
     var body: some View {
         VStack {
@@ -30,8 +30,8 @@ struct ContentView: View {
                     .offset(y: UIScreen.main.bounds.height * 0.41)
                 
                 LockScreen()
-                    .offset(y: !vm.isUnlocked && vm.block ? 0 : -UIScreen.main.bounds.height)
-                    .animation(.easeInOut(duration: 0.3), value: vm.isUnlocked)
+                    .offset(y: !interfaceData.isUnlocked && interfaceData.block ? 0 : -UIScreen.main.bounds.height)
+                    .animation(.easeInOut(duration: 0.3), value: interfaceData.isUnlocked)
             }
         }
         .ignoresSafeArea(.keyboard)
@@ -41,7 +41,9 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            .environmentObject(TaskManagerViewModel())
+            .environmentObject(InterfaceData(
+                dataManager: DataManager(notificationManager: NotificationManager()),
+                biometryManager: BiometryManager()))
             .environmentObject(ColorSchemeManager())
     }
 }

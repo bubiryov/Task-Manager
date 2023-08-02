@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AddButton: View {
     
-    @EnvironmentObject var vm: TaskManagerViewModel
+    @ObservedObject var interfaceData: InterfaceData
     @Binding var showAddWindow: Bool
 
     var body: some View {
@@ -17,7 +17,7 @@ struct AddButton: View {
             HapticManager.instance.impact(style: .light)
             showAddWindow = true
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                vm.titleKeyboardFocus = true
+                interfaceData.titleKeyboardFocus = true
             }
         } label: {
             Text("+")
@@ -32,7 +32,10 @@ struct AddButton: View {
 
 struct AddButton_Previews: PreviewProvider {
     static var previews: some View {
-        AddButton(showAddWindow: .constant(false))
-            .environmentObject(TaskManagerViewModel())
+        AddButton(
+            interfaceData: InterfaceData(
+                dataManager: DataManager(notificationManager: NotificationManager()),
+                biometryManager: BiometryManager()),
+            showAddWindow: .constant(false))
     }
 }

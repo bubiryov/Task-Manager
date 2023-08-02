@@ -9,21 +9,21 @@ import SwiftUI
 
 struct NotificationToggle: View {
     
-    @EnvironmentObject var vm: TaskManagerViewModel
+    @ObservedObject var dataManager: DataManager
+    let notificationManager: NotificationManager
     @Binding var notification: Bool
     var task: TaskEntity
         
     var body: some View {
         Toggle(isOn: $notification.animation()) {
             Text(task.dateLabel ?? "" == "" ? "EditViewNotification-string".localized : task.dateLabel!)
-//            Text("Date")
         }
         .tint(.tabBarColor)
         .onChange(of: notification) { _ in
             UIApplication.shared.endEditing(true)
             if task.notification {
                 Task {
-                    await NotificationManager.instance.removeRequest(task, vm)
+                    await notificationManager.removeRequest(task, dataManager)
                 }
             }
         }
@@ -32,10 +32,13 @@ struct NotificationToggle: View {
 
 struct NotificationToggle_Previews: PreviewProvider {
     static var previews: some View {
+        let notificationManager = NotificationManager()
+        let dataManager = DataManager(notificationManager: notificationManager)
         NotificationToggle(
+            dataManager: dataManager,
+            notificationManager: notificationManager,
             notification: .constant(true),
-            task: TaskManagerViewModel().dataManager.allTasks[0]
+            task: dataManager.allTasks[0]
         )
-        .environmentObject(TaskManagerViewModel())
     }
 }

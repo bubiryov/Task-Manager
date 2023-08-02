@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SheetView: View {
     
-    @EnvironmentObject var vm: TaskManagerViewModel
+    @ObservedObject var interfaceData: InterfaceData
     @Environment(\.dismiss) var dismiss
     
     @Binding var toggleBlock: Bool
@@ -27,14 +27,7 @@ struct SheetView: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 20) {
-//                if vm.passcode != "" {
-//                    PasscodeField(
-//                        fieldLabel: "Previous passcode",
-//                        enteredPasscode: $previuosPasscode,
-//                        showPasscode: $showPreviousPasscode
-//                    )
-//                }
-                if vm.block {
+                if interfaceData.block {
                     
                     PasscodeField(
                         fieldLabel: "PasscodeField-string".localized,
@@ -81,7 +74,7 @@ struct SheetView: View {
             .padding(.horizontal)
             .padding(.top, 70)
             .onDisappear {
-                if !vm.block {
+                if !interfaceData.block {
                     toggleBlock = false
                 } else {
                     toggleBlock = true
@@ -95,14 +88,14 @@ struct SheetView: View {
     }
     
     func deletePasscode() {
-        guard previuosPasscode == vm.passcode else {
+        guard previuosPasscode == interfaceData.passcode else {
             alertTitle = "WrongPasscodeAlert-string".localized
             showAlert = true
             return
         }
         dismiss()
-        vm.toCountAttempts = false
-        vm.block = false
+        interfaceData.toCountAttempts = false
+        interfaceData.block = false
     }
     
     func makePasscode() {
@@ -116,17 +109,20 @@ struct SheetView: View {
             showAlert = true
             return
         }
-        vm.passcode = newPasscode1
-        vm.isUnlocked = false
-        vm.block = true
+        interfaceData.passcode = newPasscode1
+        interfaceData.isUnlocked = false
+        interfaceData.block = true
         dismiss()
     }
 }
 
 struct SheetView_Previews: PreviewProvider {
     static var previews: some View {
-        SheetView(toggleBlock: .constant(false))
-            .environmentObject(TaskManagerViewModel())
+        SheetView(
+            interfaceData: InterfaceData(
+                dataManager: DataManager(notificationManager: NotificationManager()),
+                biometryManager: BiometryManager()),
+            toggleBlock: .constant(false))
     }
 }
 

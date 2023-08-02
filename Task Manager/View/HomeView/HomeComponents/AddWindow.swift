@@ -9,7 +9,9 @@ import SwiftUI
 
 struct AddWindow: View {
     
-    @EnvironmentObject var vm: TaskManagerViewModel
+    @ObservedObject var interfaceData: InterfaceData
+    @ObservedObject var dataManager: DataManager
+    
     @State private var title: String = ""
     @State private var notes: String = ""
     @Binding var showWindow: Bool
@@ -24,7 +26,7 @@ struct AddWindow: View {
                     HapticManager.instance.impact(style: .light)
                     newTask()
                     UIApplication.shared.endEditing(true)
-                    vm.titleKeyboardFocus = false
+                    interfaceData.titleKeyboardFocus = false
                 }
  
             VStack(spacing: 30) {
@@ -37,7 +39,7 @@ struct AddWindow: View {
                     .foregroundColor(.white)
                     .bold()
                     .focused($focus)
-                    .onChange(of: vm.titleKeyboardFocus) {
+                    .onChange(of: interfaceData.titleKeyboardFocus) {
                         focus = $0
                     }
                 
@@ -70,7 +72,7 @@ struct AddWindow: View {
             notes = ""
             return
         }
-        vm.addTask(title: title, note: notes)
+        dataManager.addTask(title: title, note: notes)
         title = ""
         notes = ""
     }
@@ -78,7 +80,11 @@ struct AddWindow: View {
 
 struct AddView_Previews: PreviewProvider {
     static var previews: some View {
-        AddWindow(showWindow: .constant(false))
-            .environmentObject(TaskManagerViewModel())
+        AddWindow(
+            interfaceData: InterfaceData(
+                dataManager: DataManager(notificationManager: NotificationManager()),
+                biometryManager: BiometryManager()),
+            dataManager: DataManager(notificationManager: NotificationManager()),
+            showWindow: .constant(false))
     }
 }

@@ -11,9 +11,9 @@ import UserNotifications
 
 class NotificationManager {
     
-    static let instance = NotificationManager()
+//    static let instance = NotificationManager()
         
-    func makeNotification(task: TaskEntity, vm: TaskManagerViewModel, date: Date) {
+    func makeNotification(task: TaskEntity, dm: DataManager, date: Date) {
                 
         let content = UNMutableNotificationContent()
         content.title = task.title!
@@ -38,36 +38,36 @@ class NotificationManager {
 
         task.notification = true
         task.dateLabel = date.formatted()
-        vm.toSave()
+        dm.toSave()
         print("New request done")
     }
     
-    func addNotification(task: TaskEntity, vm: TaskManagerViewModel, date: Date) async {
+    func addNotification(task: TaskEntity, dm: DataManager, date: Date) async {
         if task.notification {
             Task {
-                await removeRequest(task, vm)
+                await removeRequest(task, dm)
                 await MainActor.run(body: {
-                    makeNotification(task: task, vm: vm, date: date)
+                    makeNotification(task: task, dm: dm, date: date)
                 })
             }
         } else {
             Task {
                 await MainActor.run(body: {
-                    makeNotification(task: task, vm: vm, date: date)
+                    makeNotification(task: task, dm: dm, date: date)
                 })
             }
         }
     }
-    
-    func cancelAll(_ vm: TaskManagerViewModel) {
-        for task in vm.dataManager.allTasks {
+
+    func cancelAll(_ dm: DataManager) {
+        for task in dm.allTasks {
             task.notification = false
             task.dateLabel = ""
-            vm.toSave()
+            dm.toSave()
         }
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
-        UIApplication.shared.applicationIconBadgeNumber = 0
+//        UIApplication.shared.applicationIconBadgeNumber = 0
     }
     
     func getDeliveredNotifications() async -> [UNNotification] {
@@ -77,18 +77,18 @@ class NotificationManager {
             }
         }
     }
-    
-    func removeDelivered(_ task: TaskEntity, _ vm: TaskManagerViewModel) async {
+
+    func removeDelivered(_ task: TaskEntity, _ dm: DataManager) async {
         let deliveredNotifications = await getDeliveredNotifications()
         for notification in deliveredNotifications {
             let identifier = notification.request.identifier
             if identifier == task.id {
                 UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [identifier])
                 await MainActor.run {
-                    UIApplication.shared.applicationIconBadgeNumber -= 1
+//                    UIApplication.shared.applicationIconBadgeNumber -= 1
                     task.notification = false
                     task.dateLabel = ""
-                    vm.toSave()
+                    dm.toSave()
                 }
                 print("Delivered notification deleted")
             }
@@ -103,7 +103,7 @@ class NotificationManager {
         }
     }
     
-    func removeRequest(_ task: TaskEntity, _ vm: TaskManagerViewModel) async {
+    func removeRequest(_ task: TaskEntity, _ dm: DataManager) async {
         do {
             let requests = try await getPendingNotifications()
             for request in requests {
@@ -112,7 +112,7 @@ class NotificationManager {
                     await MainActor.run {
                         task.dateLabel = ""
                         task.notification = false
-                        vm.toSave()
+                        dm.toSave()
                     }
                     print("Request deleted")
                 } else {

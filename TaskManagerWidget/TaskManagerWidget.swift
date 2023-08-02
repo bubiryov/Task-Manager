@@ -9,85 +9,6 @@ import WidgetKit
 import SwiftUI
 import Intents
 
-class Provider: IntentTimelineProvider {
-    
-    func placeholder(in context: Context) -> SimpleEntry {
-        return SimpleEntry(date: Date(), configuration: ConfigurationIntent())
-    }
-
-    func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), configuration: configuration)
-        completion(entry)
-    }
-
-    func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-        var entries: [SimpleEntry] = []
-
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-        let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, configuration: configuration)
-            entries.append(entry)
-        }
-
-        let timeline = Timeline(entries: entries, policy: .atEnd)
-        completion(timeline)
-    }
-    
-    func getData() -> [TaskEntity] {
-        let dataManager = DataManager()
-        return dataManager.fetchTasks()
-    }
-    
-}
-
-struct SimpleEntry: TimelineEntry {
-    let date: Date
-    let configuration: ConfigurationIntent
-}
-
-struct TaskManagerWidgetEntryView : View {
-    var entry: Provider.Entry
-    var tasks: [TaskEntity] = {
-        let dataManager = DataManager()
-        return dataManager.fetchTasks().filter({ !$0.completion }).reversed()
-    }()
-
-    var body: some View {
-        ZStack {
-            Color("WidgetBackground")
-            
-            if !tasks.isEmpty {
-                VStack(alignment: .leading, spacing: 5) {
-                    ForEach(tasks.prefix(5)) { task in
-                        HStack {
-                            Image(systemName: "square")
-                            Text(task.title ?? "")
-                        }
-                    }
-                }
-                .padding()
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-            } else {
-                Text("No tasks")
-            }
-            
-            VStack {
-                Text("+")
-                    .font(.title2)
-                    .foregroundColor(.white)
-                    .frame(width: 50, height: 50)
-                    .background(Color("AddButtonColor"))
-                    .clipShape(Circle())
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
-            .padding()
-
-        }
-    }
-}
-
 struct TaskManagerWidget: Widget {
     let kind: String = "TaskManagerWidget"
 
@@ -95,8 +16,8 @@ struct TaskManagerWidget: Widget {
         IntentConfiguration(kind: kind, intent: ConfigurationIntent.self, provider: Provider()) { entry in
             TaskManagerWidgetEntryView(entry: entry)
         }
-        .configurationDisplayName("My Widget")
-        .description("This is an example widget.")
+        .configurationDisplayName("Tasks")
+        .description("Don't forget any important task.")
         .supportedFamilies([.systemMedium])
     }
 }

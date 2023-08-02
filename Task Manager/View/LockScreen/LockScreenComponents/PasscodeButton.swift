@@ -10,7 +10,7 @@ import LocalAuthentication
 
 struct PasscodeButton: View {
     
-    @EnvironmentObject var vm: TaskManagerViewModel
+    @ObservedObject var interfaceData: InterfaceData
     @Binding var passcode: String
     var value: String
     
@@ -22,13 +22,13 @@ struct PasscodeButton: View {
                 .fill(Color.tabBarColor)
                 .frame(width: 80)
                 .overlay {
-                    if value != vm.biometryType {
+                    if value != interfaceData.biometryType {
                         Text(value)
                             .foregroundColor(Color.white)
                             .font(.system(size: 30))
                             .bold()
                     } else {
-                        Image(systemName: vm.biometryType)
+                        Image(systemName: interfaceData.biometryType)
                             .foregroundColor(Color.white)
                             .font(.system(size: 30))
                     }
@@ -43,28 +43,28 @@ struct PasscodeButton: View {
             if passcode.count >= 1 {
                 passcode.removeLast()
             }
-        case vm.biometryType : toAuthenticate()
+        case interfaceData.biometryType : toAuthenticate()
         default:
-            if passcode.count < vm.passcode.count {
+            if passcode.count < interfaceData.passcode.count {
                 passcode.append(value)
-                if passcode.count == vm.passcode.count {
-                    toUNnlock()
+                if passcode.count == interfaceData.passcode.count {
+                    toUnlock()
                 }
             }
         }
     }
     
-    func toUNnlock() {
+    func toUnlock() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            if passcode == vm.passcode {
-                vm.isUnlocked = true
+            if passcode == interfaceData.passcode {
+                interfaceData.isUnlocked = true
                 passcode = ""
-                vm.attempts = 0
+                interfaceData.attempts = 0
             } else {
                 withAnimation {
                     HapticManager.instance.errorHaptic()
                     passcode = ""
-                    vm.attempts += 1
+                    interfaceData.attempts += 1
                 }
             }
         }
@@ -74,12 +74,12 @@ struct PasscodeButton: View {
         let context = LAContext()
         var error: NSError?
         
-        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) && vm.biometryIsOn {
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) && interfaceData.biometryIsOn {
             
             context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "BiometricReason-string".localized) { success, authenticationError in
                 if success {
-                    passcode = vm.passcode
-                    toUNnlock()
+                    passcode = interfaceData.passcode
+                    toUnlock()
                 } else {
                     print("Error of authentication")
                 }
@@ -92,7 +92,10 @@ struct PasscodeButton: View {
 
 struct PasscodeButton_Previews: PreviewProvider {
     static var previews: some View {
-        PasscodeButton(passcode: .constant("0000"), value: "1")
-            .environmentObject(TaskManagerViewModel())
+        PasscodeButton(
+            interfaceData: InterfaceData(
+                dataManager: DataManager(notificationManager: NotificationManager()),
+                biometryManager: BiometryManager()),
+            passcode: .constant("0000"), value: "1")
     }
 }

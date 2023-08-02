@@ -9,7 +9,10 @@ import SwiftUI
 
 struct EditView: View {
     
-    @EnvironmentObject var vm: TaskManagerViewModel
+    @EnvironmentObject var dataManager: DataManager
+    @EnvironmentObject var interfaceData: InterfaceData
+    let notificationManager: NotificationManager = NotificationManager()
+    
     @State private var taskTitle: String
     @State private var taskNotes: String
     @State private var notification: Bool
@@ -29,44 +32,63 @@ struct EditView: View {
     
     var body: some View {
         VStack(spacing: spacingValue) {
-            TitleTextField(taskTitle: $taskTitle, task: task)
-                .focused($titleFocus)
-                .onChange(of: titleFocus) {
-                    vm.titleFocus = $0
-                }
-                .onChange(of: vm.titleFocus) {
-                    titleFocus = $0
-                }
+            TitleTextField(
+                dataManager: dataManager,
+                taskTitle: $taskTitle,
+                task: task
+            )
+            .focused($titleFocus)
+            .onChange(of: titleFocus) {
+                interfaceData.titleFocus = $0
+            }
+            .onChange(of: interfaceData.titleFocus) {
+                titleFocus = $0
+            }
             
             Divider()
             
-            NotesField(taskNotes: $taskNotes, task: task)
-                .focused($textEditorFocus)
-                .onChange(of: textEditorFocus) {
-                    vm.textEditorFocus = $0
-                }
-                .onChange(of: vm.textEditorFocus) {
-                    textEditorFocus = $0
-                }
+            NotesField(
+                dataManager: dataManager,
+                taskNotes: $taskNotes,
+                task: task
+            )
+            .focused($textEditorFocus)
+            .onChange(of: textEditorFocus) {
+                interfaceData.textEditorFocus = $0
+            }
+            .onChange(of: interfaceData.textEditorFocus) {
+                textEditorFocus = $0
+            }
             
             ZStack {
-                NotificationToggle(notification: $notification, task: task)
-                    .offset(x: vm.textEditorFocus ? -UIScreen.main.bounds.width : 0)
-                    .animation(.spring(response: 0.4, dampingFraction: 0.8), value: vm.textEditorFocus)
+                NotificationToggle(
+                    dataManager: dataManager,
+                    notificationManager: notificationManager,
+                    notification: $notification,
+                    task: task
+                )
+                .offset(x: interfaceData.textEditorFocus ? -UIScreen.main.bounds.width : 0)
+                .animation(.spring(response: 0.4, dampingFraction: 0.8), value: interfaceData.textEditorFocus)
                 
                 AccentButton(label: "EditViewDoneButton-string".localized, action: {
-                    vm.textEditorFocus = false
+                    interfaceData.textEditorFocus = false
                 })
-                .offset(x: vm.textEditorFocus ? 0 : UIScreen.main.bounds.width)
-                .animation(.spring(response: 0.4, dampingFraction: 0.8), value: vm.textEditorFocus)
+                .offset(x: interfaceData.textEditorFocus ? 0 : UIScreen.main.bounds.width)
+                .animation(.spring(response: 0.4, dampingFraction: 0.8), value: interfaceData.textEditorFocus)
             }
             
             if notification {
-                NotificationOptions(date: $date, task: task, spacingValue: spacingValue)
-                    .offset(y: vm.textEditorFocus ? UIScreen.main.bounds.height / 2 : 0)
-                    .offset(y: vm.titleFocus ? UIScreen.main.bounds.height / 2 : 0)
-                    .animation(.spring(response: 0.4, dampingFraction: 0.8), value: vm.textEditorFocus)
-                    .animation(.spring(response: 0.4, dampingFraction: 0.8), value: vm.titleFocus)
+                NotificationOptions(
+                    dataManager: dataManager,
+                    notificationManager: notificationManager,
+                    date: $date,
+                    task: task,
+                    spacingValue: spacingValue
+                )
+                .offset(y: interfaceData.textEditorFocus ? UIScreen.main.bounds.height / 2 : 0)
+                .offset(y: interfaceData.titleFocus ? UIScreen.main.bounds.height / 2 : 0)
+                .animation(.spring(response: 0.4, dampingFraction: 0.8), value: interfaceData.textEditorFocus)
+                .animation(.spring(response: 0.4, dampingFraction: 0.8), value: interfaceData.titleFocus)
             }
             
             Spacer()
@@ -77,27 +99,30 @@ struct EditView: View {
         .frame(minHeight: 0, maxHeight: .infinity)
         .ignoresSafeArea(.keyboard)
         .onAppear {
-            if vm.showSearch {
+            if interfaceData.showSearch {
                 withAnimation {
-                    vm.showSearch = false
-                    vm.searchable = ""
-                    vm.searchKeyboardFocus = false
+                    interfaceData.showSearch = false
+                    interfaceData.searchable = ""
+                    interfaceData.searchKeyboardFocus = false
                 }
             }
             Task {
-                await NotificationManager.instance.removeDelivered(task, vm)
+                await notificationManager.removeDelivered(task, dataManager)
             }
         }
         .onDisappear {
-            vm.textEditorFocus = false
+            interfaceData.textEditorFocus = false
         }
     }
 }
 
 struct TaskEditView_Previews: PreviewProvider {
     static var previews: some View {
-        let vm = TaskManagerViewModel()
-        EditView(task: vm.dataManager.allTasks[0])
-            .environmentObject(TaskManagerViewModel())
+        let dataManager = DataManager(notificationManager: NotificationManager())
+        EditView(task: dataManager.allTasks[0])
+            .environmentObject(dataManager)
+            .environmentObject(InterfaceData(
+                dataManager: dataManager,
+                biometryManager: BiometryManager()))
     }
 }

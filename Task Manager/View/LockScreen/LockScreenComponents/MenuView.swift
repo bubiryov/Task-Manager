@@ -16,10 +16,6 @@ struct MenuView: View {
             } icon: {
                 Image(systemName: "key.fill")
             }
-            .onTapGesture {
-                //
-            }
-            
         } label: {
             Image(systemName: "questionmark.circle")
                 .frame(width: 19)

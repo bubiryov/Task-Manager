@@ -9,13 +9,13 @@ import SwiftUI
 
 struct BasketButton: View {
     
-    @EnvironmentObject var vm: TaskManagerViewModel
+    @ObservedObject var dataManager: DataManager
     @State private var showAlert: Bool = false
     @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         Button {
-            if vm.dataManager.allTasks.filter({ $0.inRecent }).count > 0 {
+            if dataManager.allTasks.filter({ $0.inRecent }).count > 0 {
                 HapticManager.instance.impact(style: .light)
                 showAlert = true
             } else {
@@ -31,7 +31,7 @@ struct BasketButton: View {
                   message: Text("RecentAlertMessage-string"),
                   primaryButton:
                     .destructive(Text("RecentAlertPrimaryButton-string")) {
-                        vm.deleteAllRecent()
+                        dataManager.deleteAllRecent()
                     },
                   secondaryButton: .cancel())
         }
@@ -40,7 +40,6 @@ struct BasketButton: View {
 
 struct BasketButton_Previews: PreviewProvider {
     static var previews: some View {
-        BasketButton()
-            .environmentObject(TaskManagerViewModel())
+        BasketButton(dataManager: DataManager(notificationManager: NotificationManager()))
     }
 }

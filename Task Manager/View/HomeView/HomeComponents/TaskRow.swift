@@ -9,8 +9,9 @@ import SwiftUI
 
 struct TaskRow: View {
     
+    let notificationManager = NotificationManager()
     var task: TaskEntity
-    @EnvironmentObject var vm: TaskManagerViewModel
+    @ObservedObject var dataManager: DataManager
     
     var body: some View {
         HStack {
@@ -20,13 +21,13 @@ struct TaskRow: View {
                 .onTapGesture {
                     withAnimation(.linear(duration: 0.1)) {
                         HapticManager.instance.impact(style: .light)
-                        vm.updateTask(task: task)
+                        dataManager.updateTask(task: task)
                         Task {
-                            await NotificationManager.instance.removeRequest(task, vm)
-                            await NotificationManager.instance.removeDelivered(task, vm)
+                            await notificationManager.removeRequest(task, dataManager)
+                            await notificationManager.removeDelivered(task, dataManager)
                             task.dateLabel = ""
                             task.notification = false
-                            vm.toSave()
+                            dataManager.toSave()
                         }
                     }
                 }
@@ -59,7 +60,8 @@ struct TaskRow: View {
 
 struct TaskRow_Previews: PreviewProvider {
     static var previews: some View {
-        TaskRow(task: TaskManagerViewModel().dataManager.allTasks[0])
-            .environmentObject(TaskManagerViewModel())
+        TaskRow(
+            task: DataManager(notificationManager: NotificationManager()).allTasks[0],
+            dataManager: DataManager(notificationManager: NotificationManager()))
     }
 }

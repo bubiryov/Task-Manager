@@ -9,26 +9,27 @@ import SwiftUI
 
 struct SearchButton: View {
     
-    @EnvironmentObject var vm: TaskManagerViewModel
+    @ObservedObject var dataManager: DataManager
+    @ObservedObject var interfaceData: InterfaceData
         
     var body: some View {
         
-        let inMainList = vm.dataManager.allTasks.filter { $0.inRecent == false }
+        let inMainList = dataManager.allTasks.filter { $0.inRecent == false }
         
         Button {
             withAnimation(.easeOut(duration: 0.2)) {
                 if !inMainList.isEmpty {
                     HapticManager.instance.impact(style: .light)
-                    withAnimation {
-                        vm.showSearch.toggle()
+                    withAnimation(.easeInOut(duration: 0.15)) {
+                        interfaceData.showSearch.toggle()
                     }
-                    vm.searchable = ""
+                    interfaceData.searchable = ""
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        if vm.searchKeyboardFocus {
+                        if interfaceData.searchKeyboardFocus {
                             UIApplication.shared.endEditing(true)
-                            vm.searchKeyboardFocus = false
+                            interfaceData.searchKeyboardFocus = false
                         } else {
-                            vm.searchKeyboardFocus = true
+                            interfaceData.searchKeyboardFocus = true
                         }
                     }
                 } else {
@@ -45,7 +46,10 @@ struct SearchButton: View {
 
 struct SearchButton_Previews: PreviewProvider {
     static var previews: some View {
-        SearchButton()
-            .environmentObject(TaskManagerViewModel())
+        SearchButton(
+            dataManager: DataManager(notificationManager: NotificationManager()),
+            interfaceData: InterfaceData(
+                dataManager: DataManager(notificationManager: NotificationManager()),
+                biometryManager: BiometryManager()))
     }
 }

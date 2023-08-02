@@ -9,7 +9,7 @@ import Foundation
 import LocalAuthentication
 
 class BiometryManager {
-    static func getBiometryType() -> String {
+    func getBiometryType() -> String {
         let context = LAContext()
         if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil) {
             if #available(iOS 11.0, *) {

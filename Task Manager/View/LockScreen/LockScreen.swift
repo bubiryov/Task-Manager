@@ -11,7 +11,7 @@ import LocalAuthentication
 struct LockScreen: View {
     
     @State private var passcode: String = ""
-    @EnvironmentObject var vm: TaskManagerViewModel
+    @EnvironmentObject var interfaceData: InterfaceData
     
     var body: some View {
         NavigationView {
@@ -20,23 +20,23 @@ struct LockScreen: View {
                 Spacer()
                 
                 HStack(spacing: 22) {
-                    ForEach(0..<vm.passcode.count, id: \.self) { index in
+                    ForEach(0..<interfaceData.passcode.count, id: \.self) { index in
                         PasscodeCircles(index: index, passcode: $passcode)
                     }
                 }
-                .modifier(ShakeEffect(animatableData: CGFloat(vm.attempts)))
+                .modifier(ShakeEffect(animatableData: CGFloat(interfaceData.attempts)))
                 
                 Spacer()
                 
-                if (1...4).contains(vm.attempts) && vm.toCountAttempts {
-                    Text("AttemptsCount-string".localized + "\(5-vm.attempts)")
+                if (1...4).contains(interfaceData.attempts) && interfaceData.toCountAttempts {
+                    Text("AttemptsCount-string".localized + "\(5 - interfaceData.attempts)")
                         .padding(.bottom, 20)
                         .foregroundColor(.red)
-                } else if vm.attempts >= 5 && vm.toCountAttempts {
+                } else if interfaceData.attempts >= 5 && interfaceData.toCountAttempts {
                     Text("DeletedData-string")
                         .padding(.bottom, 20)
                         .foregroundColor(.red)
-                } else if vm.attempts == 0 || !vm.toCountAttempts {
+                } else if interfaceData.attempts == 0 || !interfaceData.toCountAttempts {
                     Text(" ")
                         .padding(.bottom, 20)
                 }
@@ -45,25 +45,31 @@ struct LockScreen: View {
                     columns: Array(repeating: GridItem(.flexible()), count: 3),
                     spacing: 10){
                         ForEach(1...9, id: \.self) { value in
-                            PasscodeButton(passcode: $passcode, value: "\(value)")
+                            PasscodeButton(
+                                interfaceData: interfaceData,
+                                passcode: $passcode,
+                                value: "\(value)")
                         }
-                        PasscodeButton(passcode: $passcode, value: "⌫")
-                        PasscodeButton(passcode: $passcode, value: "0")
-                        PasscodeButton(passcode: $passcode, value: vm.biometryType)
-                        
+                        PasscodeButton(
+                            interfaceData: interfaceData,
+                            passcode: $passcode,
+                            value: "⌫")
+                        PasscodeButton(
+                            interfaceData: interfaceData,
+                            passcode: $passcode,
+                            value: "0")
+                        PasscodeButton(
+                            interfaceData: interfaceData,
+                            passcode: $passcode,
+                            value: interfaceData.biometryType)
                     }
                     .padding(.horizontal, 40)
                     .padding(.bottom, 40)
             }
             .background(Color.backgroundColor)
             .onAppear {
-                vm.getBiometryType()
+                interfaceData.getBiometryType()
             }
-
-            
-//            .toolbar {
-//                MenuView()
-//            }
         }
     }
 }
@@ -71,7 +77,9 @@ struct LockScreen: View {
 struct LockScreen_Previews: PreviewProvider {
     static var previews: some View {
         LockScreen()
-            .environmentObject(TaskManagerViewModel())
+            .environmentObject(InterfaceData(
+                dataManager: DataManager(notificationManager: NotificationManager()),
+                biometryManager: BiometryManager()))
     }
 }
 

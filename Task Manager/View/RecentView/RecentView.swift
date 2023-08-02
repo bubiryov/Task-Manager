@@ -9,10 +9,10 @@ import SwiftUI
 
 struct RecentView: View {
     
-    @EnvironmentObject var vm: TaskManagerViewModel
+    @EnvironmentObject var dataManager: DataManager
     
     var body: some View {
-        let recentTasks = vm.dataManager.allTasks.filter { $0.inRecent == true }
+        let recentTasks = dataManager.allTasks.filter { $0.inRecent == true }
 
         NavigationView {
             ZStack {
@@ -21,11 +21,10 @@ struct RecentView: View {
                 VStack {
                     List {
                         ForEach(recentTasks.reversed()) { task in
-                            TaskRow(task: task)
+                            TaskRow(task: task, dataManager: dataManager)
                         }
-//                        .onDelete(perform: vm.deleteTask)
                         .onDelete(perform: { indexSet in
-                            vm.deleteTask(indexSet: indexSet, recentList: true)
+                            dataManager.deleteTask(indexSet: indexSet, recentList: true)
                         })
 
                         .listRowSeparator(.hidden)
@@ -44,7 +43,7 @@ struct RecentView: View {
             .background(Color.backgroundColor)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    BasketButton()
+                    BasketButton(dataManager: dataManager)
                 }
             }
         }
@@ -54,6 +53,6 @@ struct RecentView: View {
 struct RecentView_Previews: PreviewProvider {
     static var previews: some View {
         RecentView()
-            .environmentObject(TaskManagerViewModel())
+            .environmentObject(DataManager(notificationManager: NotificationManager()))
     }
 }

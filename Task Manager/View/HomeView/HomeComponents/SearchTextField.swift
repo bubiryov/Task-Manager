@@ -9,19 +9,19 @@ import SwiftUI
 
 struct SearchTextField: View {
     
-    @EnvironmentObject var vm: TaskManagerViewModel
+    @ObservedObject var interfaceData: InterfaceData
     @FocusState var focus: Bool
     
     var body: some View {
         
-        TextField("HomeSearchTextField-string", text: $vm.searchable)
+        TextField("HomeSearchTextField-string", text: $interfaceData.searchable)
             .padding()
             .disableAutocorrection(true)
             .background(Color.tabBarColor.opacity(0.3))
             .cornerRadius(20)
             .padding(.horizontal)
             .focused($focus)
-            .onChange(of: vm.searchKeyboardFocus) {
+            .onChange(of: interfaceData.searchKeyboardFocus) {
                 focus = $0
             }
     }
@@ -29,7 +29,9 @@ struct SearchTextField: View {
 
 struct SearchTextField_Previews: PreviewProvider {
     static var previews: some View {
-        SearchTextField()
-            .environmentObject(TaskManagerViewModel())
+        SearchTextField(
+            interfaceData: InterfaceData(
+                dataManager: DataManager(notificationManager: NotificationManager()),
+                biometryManager: BiometryManager()))
     }
 }

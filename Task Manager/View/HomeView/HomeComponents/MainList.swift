@@ -9,26 +9,26 @@ import SwiftUI
 
 struct MainList: View {
     
-    @EnvironmentObject var vm: TaskManagerViewModel
+    @ObservedObject var interfaceData: InterfaceData
+    @ObservedObject var dataManager: DataManager
     
     var body: some View {
         
-        let mainTasks = vm.dataManager.allTasks.filter { $0.inRecent == false }
+        let mainTasks = dataManager.allTasks.filter { $0.inRecent == false }
         
         List {
             ForEach(mainTasks.reversed().filter { task in
-                vm.searchable.isEmpty ? true : task.title?.localizedCaseInsensitiveContains(vm.searchable) == true
+                interfaceData.searchable.isEmpty ? true : task.title?.localizedCaseInsensitiveContains(interfaceData.searchable) == true
             }) { task in
                 NavigationLink {
                     EditView(task: task)
                 } label: {
-                    TaskRow(task: task)
+                    TaskRow(task: task, dataManager: dataManager)
                 }
             }
             .onDelete(perform: { indexSet in
-                vm.deleteTask(indexSet: indexSet, recentList: false)
+                dataManager.deleteTask(indexSet: indexSet, recentList: false)
             })
-//            .onDelete(perform: vm.deleteTask(recentList: false))
             .listRowSeparator(.hidden)
             .listRowBackground(Color.backgroundColor)
         }
@@ -42,7 +42,11 @@ struct MainList: View {
 
 struct MainList_Previews: PreviewProvider {
     static var previews: some View {
-        MainList()
-            .environmentObject(TaskManagerViewModel())
+        MainList(
+            interfaceData: InterfaceData(
+                dataManager: DataManager(notificationManager: NotificationManager()),
+                biometryManager: BiometryManager()),
+            dataManager: DataManager(notificationManager: NotificationManager())
+        )
     }
 }

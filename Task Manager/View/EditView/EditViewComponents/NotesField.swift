@@ -9,7 +9,7 @@ import SwiftUI
 
 struct NotesField: View {
     
-    @EnvironmentObject var vm: TaskManagerViewModel
+    @ObservedObject var dataManager: DataManager
     @Binding var taskNotes: String
     var task: TaskEntity
     
@@ -30,7 +30,7 @@ struct NotesField: View {
                 .onChange(of: taskNotes) { newValue in
                     task.notes = newValue
                     task.completion = false
-                    vm.toSave()
+                    dataManager.toSave()
                 }
         }
         .frame(maxHeight: UIScreen.main.bounds.height / 5)
@@ -39,10 +39,11 @@ struct NotesField: View {
 
 struct NotesField_Previews: PreviewProvider {
     static var previews: some View {
+        let dataManager = DataManager(notificationManager: NotificationManager())
         NotesField(
+            dataManager: dataManager,
             taskNotes: .constant(""),
-            task: TaskManagerViewModel().dataManager.allTasks[0]
+            task: dataManager.allTasks[0]
         )
-        .environmentObject(TaskManagerViewModel())
     }
 }

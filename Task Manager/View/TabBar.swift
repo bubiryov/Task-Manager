@@ -15,7 +15,7 @@ enum Tab: String, CaseIterable {
 
 struct TabBar: View {
     
-    @EnvironmentObject var vm: TaskManagerViewModel
+//    @EnvironmentObject var vm: TaskManagerViewModel
     @Binding var selectedTab: Tab
     private var fillImage: String {
         selectedTab.rawValue + ".fill"

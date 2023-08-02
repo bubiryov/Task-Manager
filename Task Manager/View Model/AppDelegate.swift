@@ -11,12 +11,10 @@ import UIKit
 import SwiftUI
 
 class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
-
-    @EnvironmentObject var vm: TaskManagerViewModel
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-
-        let options: UNAuthorizationOptions = [.alert, .sound, .badge]
+        
+        let options: UNAuthorizationOptions = [.alert, .sound]
 
         UNUserNotificationCenter.current().requestAuthorization(options: options) { (succes, error) in
             if let error = error {
@@ -31,20 +29,16 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         return true
     }
     
-//    @objc private func calendarDayDidChange() {
-//        vm.addToRecent()
-//    }
-//
-    
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.banner, .sound])
     }
 
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
 
+        let dataManager = DataManager(notificationManager: NotificationManager())
         let identifier = response.notification.request.identifier
-        guard let task = vm.dataManager.allTasks.first(where: { $0.id == identifier }) else { return }
+        guard let task = dataManager.allTasks.first(where: { $0.id == identifier }) else { return }
         print(task.title!)
         completionHandler()
-    }
+    }    
 }

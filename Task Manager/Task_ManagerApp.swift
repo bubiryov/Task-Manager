@@ -17,18 +17,31 @@ import SwiftUI
 struct Task_ManagerApp: App {
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+
+    @StateObject var dataManager: DataManager
+    @StateObject var colorSchemeManager = ColorSchemeManager()
+    @StateObject var interfaceData: InterfaceData
+
+    let notificationManager: NotificationManager = NotificationManager()
+    let biometryManager: BiometryManager = BiometryManager()
     
-    @StateObject var csManager = ColorSchemeManager()
-    @StateObject var vm: TaskManagerViewModel = TaskManagerViewModel()
-                
+    init() {
+        let dataManager = DataManager(notificationManager: notificationManager)
+        let interfaceData = InterfaceData(dataManager: dataManager, biometryManager: biometryManager)
+        
+        _dataManager = StateObject(wrappedValue: dataManager)
+        _interfaceData = StateObject(wrappedValue: interfaceData)
+    }
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(vm)
-                .environmentObject(csManager)
+                .environmentObject(colorSchemeManager)
+                .environmentObject(dataManager)
+                .environmentObject(interfaceData)
                 .onAppear {
-                    csManager.applyColorScheme()
-                    vm.addToRecent()
+                    colorSchemeManager.applyColorScheme()
+                    dataManager.addToRecent()
                 }
         }
     }
