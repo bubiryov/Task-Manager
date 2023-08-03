@@ -12,3 +12,4 @@ Life becomes manageable and organized when you use our app. You no longer have t
 <img width="433" alt="SCR-20230723-rfjd" src="https://github.com/bubiryov/Task-Manager/assets/124048186/dea3471d-b9b1-45fd-8056-33679853d6bd">
 <img width="433" alt="SCR-20230723-rfnb" src="https://github.com/bubiryov/Task-Manager/assets/124048186/ff31f125-3d3d-4d92-9924-5fec137cc894">
 <img width="433" alt="SCR-20230802-rbxr" src="https://github.com/bubiryov/Task-Manager/assets/124048186/9c1fa5ba-f778-45f6-b67e-11867ea4a830">
+<img width="433" alt="SCR-20230803-lpaz" src="https://github.com/bubiryov/Task-Manager/assets/124048186/7bb1b490-0c32-4aa4-a217-3277f1cd5c42">
