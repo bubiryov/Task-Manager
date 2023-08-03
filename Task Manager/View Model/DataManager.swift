@@ -44,7 +44,6 @@ class DataManager: ObservableObject {
             print("ERROR FETCHING \(error)")
         }
         WidgetCenter.shared.reloadAllTimelines()
-//        objectWillChange.send()
         return tasks
     }
 
@@ -68,8 +67,6 @@ class DataManager: ObservableObject {
     func toSave() {
         do {
             try container.viewContext.save()
-//            objectWillChange.send()
-//            fetchTasks()
         } catch let error {
             print("ERROR OF SAVING \(error)")
         }
@@ -92,7 +89,6 @@ class DataManager: ObservableObject {
         }
         toSave()
         getTasks()
-//        objectWillChange.send()
     }
     
     func deleteTask(indexSet: IndexSet, recentList: Bool) {

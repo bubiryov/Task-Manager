@@ -18,7 +18,7 @@ class NotificationManager {
         let content = UNMutableNotificationContent()
         content.title = task.title!
         content.sound = .default
-        content.badge = 1
+//        content.badge = 1
         
         var dateComponents = DateComponents()
         dateComponents.hour = Calendar.current.component(.hour, from: date)

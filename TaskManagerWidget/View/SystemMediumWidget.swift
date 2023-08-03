@@ -1,20 +1,16 @@
 //
-//  TaskManagerWidgetEntryView.swift
+//  SystemMediumWidget.swift
 //  TaskManagerWidgetExtension
 //
-//  Created by Egor Bubiryov on 02.08.2023.
+//  Created by Egor Bubiryov on 03.08.2023.
 //
 
 import SwiftUI
-import WidgetKit
 
-struct TaskManagerWidgetEntryView : View {
-    @StateObject var dataManager: DataManager = DataManager(notificationManager: NotificationManager())
-    var entry: Provider.Entry
-    var tasks: [TaskEntity] {
-        return dataManager.fetchTasks().filter({ !$0.completion }).reversed()
-    }
-
+struct SystemMediumWidget: View {
+    
+    var tasks: [TaskEntity]
+    
     var body: some View {
         ZStack {
             Color("WidgetBackground")
@@ -47,7 +43,7 @@ struct TaskManagerWidgetEntryView : View {
     }
 }
 
-extension TaskManagerWidgetEntryView {
+extension SystemMediumWidget {
     var taskCount: some View {
         HStack {
             Text("\(tasks.count)")
@@ -61,4 +57,3 @@ extension TaskManagerWidgetEntryView {
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
     }
 }
-

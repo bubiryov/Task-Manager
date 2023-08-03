@@ -18,13 +18,13 @@ struct TaskManagerWidget: Widget {
         }
         .configurationDisplayName("Tasks")
         .description("Don't forget any important task.")
-        .supportedFamilies([.systemMedium])
+        .supportedFamilies([.systemMedium, .accessoryRectangular])
     }
 }
 
 struct TaskManagerWidget_Previews: PreviewProvider {
     static var previews: some View {
         TaskManagerWidgetEntryView(entry: SimpleEntry(date: Date(), configuration: ConfigurationIntent()))
-            .previewContext(WidgetPreviewContext(family: .systemMedium))
+            .previewContext(WidgetPreviewContext(family: .accessoryRectangular))
     }
 }
