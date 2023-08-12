@@ -9,6 +9,7 @@ import Foundation
 import UserNotifications
 import UIKit
 import SwiftUI
+import GoogleMobileAds
 
 class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     
@@ -25,6 +26,8 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         }
                 
         UNUserNotificationCenter.current().delegate = self
+        
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
         
         return true
     }

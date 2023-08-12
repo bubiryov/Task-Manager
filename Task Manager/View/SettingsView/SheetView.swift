@@ -70,6 +70,8 @@ struct SheetView: View {
                 
                 Spacer()
                 
+                GADBannerViewController()
+                    .frame(width: 320, height: 50, alignment: .center)                
             }
             .padding(.horizontal)
             .padding(.top, 70)

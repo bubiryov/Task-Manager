@@ -114,6 +114,7 @@ struct SettingsView: View {
                     }
                                                             
                     Spacer()
+                    
                 }
                 .navigationTitle("SettingsTitle-string")
                 .padding(.horizontal)
